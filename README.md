@@ -22,16 +22,25 @@ will make the the admin parameter to true in the decrypted cookie.
 Here is the python implementation:
 
 import requests
+
 import re
+
 from Crypto.Util.strxor import strxor
+
 from base64 import *
 
 url = 'https://secretsheepsociety.2019.chall.actf.co/'
+
 cookie = "ZuNJ2xfy2eIegJsWEYmVTEwU63bTiSUAieVy8eVd+/qlqzDixgBcrqU6pHRIAsrY0C4/Uz1XTpreWMugeC8Fxw=="
+
 ct = b64decode(cookie)
+
 payload = ct[:10]+strxor(strxor(ct[10:15],b'false'),b'true ')+ct[15:]
+
 r = requests.get(url,cookies={'token':b64encode(payload).decode()})
+
 print(re.findall('actf{.*}',r.text))
+
 which outputs the flag actf{shep_the_conqueror_slumbers}.
 
--------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------
