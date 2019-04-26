@@ -2,8 +2,54 @@
 From all writeups given for ctf are together gathered for next ctf use x0r}{4ck
 
 FOR MD5 HASHING BASED QUESTIONS REFER TO THIS :-
+TJCTF 2019 :-
 
-https://github.com/shawnduong/ctf-writeups/blob/master/2019-TJ/Cryptography/guess-my-hashword.md
+Guess My Hashword
+
+We're given an MD5 hash and some information about it.
+
+I bet you'll never guess my password!
+
+I hashed tjctf{[word]} - my word has a captial letter, two lowercase letters, a digit, and an underscore. ex: hash('tjctf{o_0Bo}') or hash('tjctf{Aaa0_}')
+
+Here's the md5 hash: 31f40dc5308fa2a311d2e2ba8955df6c
+This is a script that one of my teammates, accio-books, wrote to crack this:
+
+from hashlib import md5
+
+import string
+
+from itertools import product, combinations, permutations
+
+'''
+I hashed tjctf{[word]} - my word has a captial letter, two lowercase letters, a number, and an underscore. Here's the md5 hash: 31f40dc5308fa2a311d2e2ba8955df6c
+'''
+
+onecapital = string.ascii_uppercase
+
+lowercase = string.ascii_lowercase
+
+onenumber = string.digits
+
+underscore = '_'
+
+for s in product(onecapital, lowercase, lowercase, onenumber, underscore):
+
+  for combo in permutations(s):
+   
+   word = ''.join(combo)
+    
+    flag = f'tjctf{{{word}}}'
+    
+    md5hash = md5(flag.encode()).hexdigest()
+    
+    if md5hash == '31f40dc5308fa2a311d2e2ba8955df6c':
+      
+      print(flag)
+
+print('Done')
+
+tjctf{w0w_E}
 
 -----------------------------------------------------------------------------------------------------------------------------
 
